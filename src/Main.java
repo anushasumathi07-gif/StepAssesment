@@ -1,37 +1,40 @@
 import java.util.*;
 
-class ISBN {
-    static String normalizeCode(String raw) {
-        String s = raw.trim();
-        return s.substring(0,3).toUpperCase() + s.substring(3);
-    }
+class WordFrequency {
+    static void printFilteredWordFrequency(String feedback) {
+        String[] stop = {"the","was","and","a","is","of","in"};
 
-    static String validateAndFormat(String code) {
-        if (code.length() != 13)
-            return "Invalid: wrong length";
+        feedback = feedback.toLowerCase()
+                .replace(".", "")
+                .replace(",", "");
 
-        for (int i = 0; i < 3; i++)
-            if (!Character.isLetter(code.charAt(i)))
-                return "Invalid: publisher code must be 3 letters";
+        String[] words = feedback.split("\\s+");
+        HashMap<String, Integer> map = new HashMap<>();
 
-        for (int i = 3; i < 13; i++)
-            if (!Character.isDigit(code.charAt(i)))
-                return "Invalid: body must contain digits";
+        for (String w : words) {
+            boolean skip = false;
 
-        StringBuilder s = new StringBuilder();
-        s.append("[").append(code.substring(0,3)).append("] YEAR: ")
-                .append(code.substring(3,7)).append(" | CATALOG: ")
-                .append(code.substring(7));
+            for (String s : stop)
+                if (w.equals(s))
+                    skip = true;
 
-        return s.toString();
+            if (!skip)
+                map.put(w, map.getOrDefault(w, 0) + 1);
+        }
+
+        ArrayList<Map.Entry<String,Integer>> list =
+                new ArrayList<>(map.entrySet());
+
+        list.sort((x, y) -> y.getValue() - x.getValue());
+
+        for (Map.Entry<String,Integer> e : list)
+            System.out.println(e.getKey() + ": " + e.getValue());
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter code: ");
-        String code = normalizeCode(sc.nextLine());
-
-        System.out.println(validateAndFormat(code));
+        System.out.print("Enter feedback: ");
+        printFilteredWordFrequency(sc.nextLine());
     }
 }
