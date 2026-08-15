@@ -1,22 +1,19 @@
 import java.util.*;
 
-class WordReverse {
-    static String reverseEachWord(String sentence) {
-        String[] words = sentence.split(" ");
-        StringBuilder result = new StringBuilder();
+class Inventory {
+    static void parseInventoryRecord(String csvLine) {
+        String[] a = csvLine.split(",");
 
-        for (String word : words)
-            result.append(new StringBuilder(word).reverse()).append(" ");
-
-        return result.toString().trim();
+        if (a.length != 3)
+            System.out.println("Invalid Record");
+        else
+            System.out.println("Product: " + a[0] +
+                    " | SKU: " + a[1] + " | Qty: " + a[2]);
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter sentence: ");
-        String s = sc.nextLine();
-
-        System.out.println(reverseEachWord(s));
+        System.out.print("Enter CSV: ");
+        parseInventoryRecord(sc.nextLine());
     }
 }
