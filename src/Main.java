@@ -1,39 +1,33 @@
 import java.util.*;
 
-class TypingAccuracy {
-    static void checkTypingAccuracy(String original, String typed) {
-        int match = 0;
-        int first = -1;
+class TrafficStreak {
+    static void findLongestStreak(String s) {
+        int max = 1, count = 1;
+        char color = s.charAt(0);
 
-        for (int i = 0; i < original.length(); i++) {
-            if (original.charAt(i) == typed.charAt(i))
-                match++;
-            else if (first == -1)
-                first = i;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                count++;
+            } else {
+                count = 1;
+            }
+
+            if (count > max) {
+                max = count;
+                color = s.charAt(i);
+            }
         }
 
-        double accuracy = (match * 100.0) / original.length();
-
-        System.out.printf("Matched: %d/%d | Accuracy: %.2f%%",
-                match, original.length(), accuracy);
-
-        if (first == -1)
-            System.out.println(" | No Mismatches");
-        else
-            System.out.println(" | First Mismatch at position " +
-                    (first + 1) + " ('" + original.charAt(first) +
-                    "' vs '" + typed.charAt(first) + "')");
+        System.out.println("Longest Streak: '" + color +
+                "' repeated " + max + " times");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Original: ");
-        String original = sc.nextLine();
+        System.out.print("Enter signal log: ");
+        String s = sc.nextLine();
 
-        System.out.print("Typed: ");
-        String typed = sc.nextLine();
-
-        checkTypingAccuracy(original, typed);
+        findLongestStreak(s);
     }
 }
