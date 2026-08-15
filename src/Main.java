@@ -1,54 +1,32 @@
 import java.util.*;
 
-class Inventory {
-    static void analyzeInventory(int[] a, int[] b) {
-        int sumA = 0, sumB = 0;
-        int max = a[0], section = 1, index = 0;
+class WordLength {
+    static void classifyWordLengths(String review) {
+        String[] words = review.split(" ");
+        int shortW = 0, medium = 0, longW = 0;
 
-        for (int i = 0; i < a.length; i++) {
-            sumA += a[i];
-            sumB += b[i];
+        for (String word : words) {
+            int n = word.length();
 
-            if (a[i] > max) {
-                max = a[i];
-                section = 1;
-                index = i;
-            }
-
-            if (b[i] > max) {
-                max = b[i];
-                section = 2;
-                index = i;
-            }
+            if (n <= 4)
+                shortW++;
+            else if (n <= 8)
+                medium++;
+            else
+                longW++;
         }
 
-        String status = (sumA == sumB) ? "Balanced" : "Not Balanced";
-
-        System.out.print("Section A Total: " + sumA);
-        System.out.print(" | Section B Total: " + sumB);
-        System.out.print(" | Status: " + status);
-        System.out.println(" | Highest Quantity: " + max +
-                " (Section " + (section == 1 ? "A" : "B") +
-                ", Item " + (index + 1) + ")");
+        System.out.println("Short: " + shortW +
+                " | Medium: " + medium +
+                " | Long: " + longW);
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter number of items: ");
-        int n = sc.nextInt();
+        System.out.print("Enter review: ");
+        String review = sc.nextLine();
 
-        int[] a = new int[n];
-        int[] b = new int[n];
-
-        System.out.println("Enter Section A quantities:");
-        for (int i = 0; i < n; i++)
-            a[i] = sc.nextInt();
-
-        System.out.println("Enter Section B quantities:");
-        for (int i = 0; i < n; i++)
-            b[i] = sc.nextInt();
-
-        analyzeInventory(a, b);
+        classifyWordLengths(review);
     }
 }
