@@ -1,35 +1,39 @@
 import java.util.*;
 
-class SeatDuplicate {
-    static void checkDuplicateSeats(int[] a) {
-        boolean found = false;
+class TypingAccuracy {
+    static void checkTypingAccuracy(String original, String typed) {
+        int match = 0;
+        int first = -1;
 
-        for (int i = 0; i < a.length; i++) {
-            for (int j = i + 1; j < a.length; j++) {
-                if (a[i] == a[j]) {
-                    System.out.println("Duplicate Seat Number Found: " + a[i]);
-                    found = true;
-                    break;
-                }
-            }
+        for (int i = 0; i < original.length(); i++) {
+            if (original.charAt(i) == typed.charAt(i))
+                match++;
+            else if (first == -1)
+                first = i;
         }
 
-        if (!found)
-            System.out.println("No Duplicate Seats Found");
+        double accuracy = (match * 100.0) / original.length();
+
+        System.out.printf("Matched: %d/%d | Accuracy: %.2f%%",
+                match, original.length(), accuracy);
+
+        if (first == -1)
+            System.out.println(" | No Mismatches");
+        else
+            System.out.println(" | First Mismatch at position " +
+                    (first + 1) + " ('" + original.charAt(first) +
+                    "' vs '" + typed.charAt(first) + "')");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter number of seats: ");
-        int n = sc.nextInt();
+        System.out.print("Original: ");
+        String original = sc.nextLine();
 
-        int[] a = new int[n];
+        System.out.print("Typed: ");
+        String typed = sc.nextLine();
 
-        System.out.println("Enter seat numbers:");
-        for (int i = 0; i < n; i++)
-            a[i] = sc.nextInt();
-
-        checkDuplicateSeats(a);
+        checkTypingAccuracy(original, typed);
     }
 }
