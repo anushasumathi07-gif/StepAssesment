@@ -1,33 +1,54 @@
 import java.util.*;
 
-class TrafficStreak {
-    static void findLongestStreak(String s) {
-        int max = 1, count = 1;
-        char color = s.charAt(0);
+class Inventory {
+    static void analyzeInventory(int[] a, int[] b) {
+        int sumA = 0, sumB = 0;
+        int max = a[0], section = 1, index = 0;
 
-        for (int i = 1; i < s.length(); i++) {
-            if (s.charAt(i) == s.charAt(i - 1)) {
-                count++;
-            } else {
-                count = 1;
+        for (int i = 0; i < a.length; i++) {
+            sumA += a[i];
+            sumB += b[i];
+
+            if (a[i] > max) {
+                max = a[i];
+                section = 1;
+                index = i;
             }
 
-            if (count > max) {
-                max = count;
-                color = s.charAt(i);
+            if (b[i] > max) {
+                max = b[i];
+                section = 2;
+                index = i;
             }
         }
 
-        System.out.println("Longest Streak: '" + color +
-                "' repeated " + max + " times");
+        String status = (sumA == sumB) ? "Balanced" : "Not Balanced";
+
+        System.out.print("Section A Total: " + sumA);
+        System.out.print(" | Section B Total: " + sumB);
+        System.out.print(" | Status: " + status);
+        System.out.println(" | Highest Quantity: " + max +
+                " (Section " + (section == 1 ? "A" : "B") +
+                ", Item " + (index + 1) + ")");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter signal log: ");
-        String s = sc.nextLine();
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
 
-        findLongestStreak(s);
+        int[] a = new int[n];
+        int[] b = new int[n];
+
+        System.out.println("Enter Section A quantities:");
+        for (int i = 0; i < n; i++)
+            a[i] = sc.nextInt();
+
+        System.out.println("Enter Section B quantities:");
+        for (int i = 0; i < n; i++)
+            b[i] = sc.nextInt();
+
+        analyzeInventory(a, b);
     }
 }
