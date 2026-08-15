@@ -1,40 +1,35 @@
 import java.util.*;
 
-class WordFrequency {
-    static void printFilteredWordFrequency(String feedback) {
-        String[] stop = {"the","was","and","a","is","of","in"};
+class SeatDuplicate {
+    static void checkDuplicateSeats(int[] a) {
+        boolean found = false;
 
-        feedback = feedback.toLowerCase()
-                .replace(".", "")
-                .replace(",", "");
-
-        String[] words = feedback.split("\\s+");
-        HashMap<String, Integer> map = new HashMap<>();
-
-        for (String w : words) {
-            boolean skip = false;
-
-            for (String s : stop)
-                if (w.equals(s))
-                    skip = true;
-
-            if (!skip)
-                map.put(w, map.getOrDefault(w, 0) + 1);
+        for (int i = 0; i < a.length; i++) {
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[i] == a[j]) {
+                    System.out.println("Duplicate Seat Number Found: " + a[i]);
+                    found = true;
+                    break;
+                }
+            }
         }
 
-        ArrayList<Map.Entry<String,Integer>> list =
-                new ArrayList<>(map.entrySet());
-
-        list.sort((x, y) -> y.getValue() - x.getValue());
-
-        for (Map.Entry<String,Integer> e : list)
-            System.out.println(e.getKey() + ": " + e.getValue());
+        if (!found)
+            System.out.println("No Duplicate Seats Found");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter feedback: ");
-        printFilteredWordFrequency(sc.nextLine());
+        System.out.print("Enter number of seats: ");
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+
+        System.out.println("Enter seat numbers:");
+        for (int i = 0; i < n; i++)
+            a[i] = sc.nextInt();
+
+        checkDuplicateSeats(a);
     }
 }
