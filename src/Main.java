@@ -1,21 +1,22 @@
+import java.util.*;
 
-    import java.util.Scanner;
-    public class Main {
-        static void checkPinLength(String pin) {
-            if (pin.length() != 4) {
-                System.out.println("Invalid PIN — must be exactly 4 digits.");
-            } else {
-                System.out.println("PIN length OK.");
-            }
-        }
+class WordReverse {
+    static String reverseEachWord(String sentence) {
+        String[] words = sentence.split(" ");
+        StringBuilder result = new StringBuilder();
 
-        public static void main(String[] args) {
-            Scanner sc = new Scanner(System.in);
+        for (String word : words)
+            result.append(new StringBuilder(word).reverse()).append(" ");
 
-            System.out.print("Enter PIN: ");
-            String pin = sc.nextLine();
+        return result.toString().trim();
+    }
 
-            checkPinLength(pin);
-        }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
+        System.out.print("Enter sentence: ");
+        String s = sc.nextLine();
+
+        System.out.println(reverseEachWord(s));
+    }
 }
